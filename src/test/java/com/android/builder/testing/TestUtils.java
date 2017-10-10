@@ -13,16 +13,23 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
+
 package com.android.builder.testing;
+
 import static org.junit.Assert.assertTrue;
+
 import com.google.common.io.Files;
+
 import junit.framework.TestCase;
+
 import java.io.File;
 import java.io.IOException;
+
 /**
  * Utility methods to deal with loading the test data.
  */
 public class TestUtils {
+    
     /**
      * returns a File for the subfolder of the test resource data.
      *
@@ -45,6 +52,7 @@ public class TestUtils {
             } else {
                 root = new File(root, name);
             }
+            
             // Hack: The sdk-common tests are not configured properly; running tests
             // works correctly from Gradle but not from within the IDE. The following
             // hack works around this quirk:
@@ -54,12 +62,16 @@ public class TestUtils {
                     root = r;
                 }
             }
+
             TestCase.assertTrue("Test folder '" + name + "' does not exist! "
                             + "(Tip: Check unit test launch config pwd)",
                     root.isDirectory());
+            
         }
+        
         return root;
     }
+    
     /**
      * returns a File for the subfolder of the test resource data.
      *
@@ -74,6 +86,7 @@ public class TestUtils {
         File root = getRoot(names);
         return root.getCanonicalFile();
     }
+    
     public static void deleteFile(File dir) {
         if (dir.isDirectory()) {
             File[] files = dir.listFiles();
@@ -86,6 +99,7 @@ public class TestUtils {
             assertTrue(dir.getPath(), dir.delete());
         }
     }
+    
     public static File createTempDirDeletedOnExit() {
         final File tempDir = Files.createTempDir();
         Runtime.getRuntime().addShutdownHook(new Thread() {
@@ -94,6 +108,7 @@ public class TestUtils {
                 deleteFile(tempDir);
             }
         });
+        
         return tempDir;
     }
 }
