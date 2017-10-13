@@ -130,7 +130,7 @@ public class MockableJarGenerator {
         
         modifyClass(classNode);
         
-        ClassWriter classWriter = new ClassWriter(ClassWriter.COMPUTE_MAXS | ClassWriter.COMPUTE_FRAMES);
+        ClassWriter classWriter = new ClassWriter(0);
         classNode.accept(classWriter);
         
         outputStream.putNextEntry(new ZipEntry(entry.getName()));
@@ -183,6 +183,15 @@ public class MockableJarGenerator {
         
         Type returnType = Type.getReturnType(methodNode.desc);
         InsnList instructions = methodNode.instructions;
+        List localVariables = methodNode.localVariables;
+        List tryCatchBlocks = methodNode.tryCatchBlocks;
+
+        if (localVariables != null && !localVariables.isEmpty()) {
+            localVariables.clear();
+        }
+        if (tryCatchBlocks != null && !tryCatchBlocks.isEmpty()) {
+            tryCatchBlocks.clear();
+        }
         
         if (methodNode.name.equals(CONSTRUCTOR)) {
             // Keep the call to parent constructor, delete the exception after that.
